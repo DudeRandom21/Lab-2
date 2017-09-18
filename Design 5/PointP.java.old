@@ -1,0 +1,61 @@
+
+public class PointC extends PointAbstraction {
+	
+	//class variables
+	private double xCoord;
+	private double yCoord;
+	
+	
+	private char typeCoord;
+	
+	
+	//constructor
+	public PointC(char typeCoord, double xCoord, double yCoord){
+		this.typeCoord=typeCoord;
+		if (typeCoord=='C'){
+			this.xCoord=xCoord;
+			this.yCoord=yCoord;
+		}
+		else{
+			this.xCoord=Math.cos(Math.toRadians(yCoord)) * xCoord;
+			this.yCoord=Math.sin(Math.toRadians(yCoord)) * xCoord;
+		}
+	}
+	
+	
+	//instance methods
+	public double getX(){
+		return xCoord;
+	}
+	
+	public double getY(){
+		return yCoord;
+	}
+	
+	public double getRho(){
+		return Math.sqrt(Math.pow(xCoord, 2) + Math.pow(yCoord, 2));
+	}
+	
+	public double getTheta(){
+		return Math.toDegrees(Math.atan2(yCoord, xCoord));
+	}
+	
+	/**
+   * Rotates the specified point by the specified number of degrees.
+   * Not required until E2.30
+   *
+   * @param point The point to rotate
+   * @param rotation The number of degrees to rotate the point.
+   * @return The rotated image of the original point.
+   */
+	public PointC rotatePoint(double rotation) {
+	    double radRotation = Math.toRadians(rotation);
+	    double X = getX();
+	    double Y = getY();
+
+    	return new PointC('C',
+      		(Math.cos(radRotation) * X) - (Math.sin(radRotation) * Y),
+      		(Math.sin(radRotation) * X) + (Math.cos(radRotation) * Y));
+	}
+
+}
