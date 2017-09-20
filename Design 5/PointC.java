@@ -8,9 +8,13 @@ public class PointC extends PointAbstraction {
 			this.xOrRho=xOrRho;
 			this.yOrTheta=yOrTheta;
 		}
-		else{
+		else if (typeCoord=='P') {
 			this.xOrRho=Math.cos(Math.toRadians(yOrTheta)) * xOrRho;
 			this.yOrTheta=Math.sin(Math.toRadians(yOrTheta)) * xOrRho;
+		}
+		else {
+			throw new IllegalArgumentException();
+
 		}
 	}
 	
