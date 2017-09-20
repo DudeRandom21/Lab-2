@@ -21,16 +21,17 @@ public class PointP extends PointAbstraction
    */
   public PointP(char type, double xOrRho, double yOrTheta)
   {
-    if(type != 'C' && type != 'P')
-      throw new IllegalArgumentException();
-    this.xOrRho = xOrRho;
-    this.yOrTheta = yOrTheta;
-    if (type == 'C') {
-      double temp = (Math.sqrt(Math.pow(this.xOrRho, 2) + Math.pow(this.yOrTheta, 2)));
-      this.yOrTheta = Math.toDegrees(Math.atan2(this.yOrTheta, this.xOrRho));
-      this.xOrRho = temp;
-      typeCoord = 'C';
+    typeCoord = type;
+    if (type == 'P') {
+      this.xOrRho = xOrRho;
+      this.yOrTheta = yOrTheta;
     }
+    else if (type == 'C') {
+      this.xOrRho = (Math.sqrt(Math.pow(xOrRho, 2) + Math.pow(yOrTheta, 2)));
+      this.yOrTheta = Math.toDegrees(Math.atan2(yOrTheta, xOrRho));
+    }
+    else
+      throw new IllegalArgumentException();
   }
   
   
