@@ -4,6 +4,7 @@
 
 import java.io.*;
 import java.util.Random;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * This class prompts the user for a set of coordinates, and then 
@@ -16,9 +17,11 @@ import java.util.Random;
  */
 public class PointCPTest
 {
-  private static final int TEST_COUNT = 100000000;
+  private static final int TEST_COUNT = 10000000;
 
   private static Random gener = new Random();
+
+  private static PointCP[] point = new PointCP[TEST_COUNT];
   //Class methods *****************************************************
 
   /**
@@ -37,12 +40,25 @@ public class PointCPTest
    */
   public static void main(String[] args)
   {
-    int cConstTime = testConstruction('C');
-    int pConstTime = testConstruction('P');
-    System.out.println("Average time for construction in Cartesian: " + cConstTime + "ns");
-    System.out.println("Average time for construction in Polar: " + pConstTime + "ns");
-    System.out.println("Average time for getX and getY in Cartesian: " + (testGetXGetY('C') - cConstTime) + "ns");
-    System.out.println("Average time for getX and getY in Polar: " + (testGetXGetY('P') - cConstTime) + "ns");
+    long t1 = System.nanoTime();
+    System.out.println("Average time for construction in Cartesian: " + testConstruction('C') + "ns");
+    System.out.println("Average time for construction in Polar: " + testConstruction('P') + "ns");
+    System.out.println("Average time for getX and getY in Cartesian: " + (testGetXGetY('C') ) + "ns");
+    System.out.println("Average time for getX and getY in Polar: " + (testGetXGetY('P') ) + "ns");
+    System.out.println("Average time for getRho and getTheta in Cartesian: " + (testGetRhoGetTheta('C') ) + "ns");
+    System.out.println("Average time for getRho and getTheta in Polar: " + (testGetRhoGetTheta('P') ) + "ns");
+
+    //Do we need to test the convertion of the internal storage??
+
+    System.out.println("Average time for getDistance in Cartesian: " + (testGetDistance('C') - 2 ) + "ns");
+    System.out.println("Average time for getDistance in Polar: " + (testGetDistance('P') - 2 ) + "ns");
+    System.out.println("Average time for rotatePoint in Cartesian: " + (testRotatePoint('C') ) + "ns");
+    System.out.println("Average time for rotatePoint in Polar: " + (testRotatePoint('P') ) + "ns");
+    System.out.println("Average time for toString in Cartesian: " + (testToString('C') ) + "ns");
+    System.out.println("Average time for toString in Polar: " + (testToString('P') ) + "ns");
+    long t2 = System.nanoTime();
+
+    System.out.println("Total Elapse time for " + TEST_COUNT + " tests: " + (t2 - t1)/1000000000 + "s");
 
 
 
@@ -62,13 +78,13 @@ public class PointCPTest
   
   public static int testConstruction(char type)
   {
-    PointCP point; 
+    // PointCP point;
     long t1, t2;
 
     t1 = System.nanoTime();
     for(int i = 0; i < TEST_COUNT; i++)
     {
-      point = new PointCP(type, gener.nextDouble(), gener.nextDouble());
+      point[i] = new PointCP(type, gener.nextDouble(), gener.nextDouble());
     }
     t2 = System.nanoTime();
 
@@ -77,15 +93,81 @@ public class PointCPTest
 
   public static int testGetXGetY(char type)
   {
-    PointCP point; 
+    // PointCP point;
     long t1, t2;
 
     t1 = System.nanoTime();
     for(int i = 0; i < TEST_COUNT; i++)
     {
-      point = new PointCP(type, gener.nextDouble(), gener.nextDouble());
-      point.getX();
-      point.getY();
+      // point = new PointCP(type, gener.nextDouble(), gener.nextDouble());
+      point[i].getX();
+      point[i].getY();
+    }
+    t2 = System.nanoTime();
+
+    return (int) ((t2 - t1)/TEST_COUNT);
+  }
+
+  public static int testGetRhoGetTheta(char type)
+  {
+    // PointCP point;
+    long t1, t2;
+
+    t1 = System.nanoTime();
+    for(int i = 0; i < TEST_COUNT; i++)
+    {
+      // point = new PointCP(type, gener.nextDouble(), gener.nextDouble());
+      point[i].getRho();
+      point[i].getTheta();
+    }
+    t2 = System.nanoTime();
+
+    return (int) ((t2 - t1)/TEST_COUNT);
+  }
+
+  public static int testGetDistance(char type)
+  {
+    // PointCP point, point2;
+    long t1, t2;
+
+    t1 = System.nanoTime();
+    for(int i = 0; i < TEST_COUNT-1; i++)
+    {
+      // point = new PointCP(type, gener.nextDouble(), gener.nextDouble());
+      // point2 = new PointCP(type, gener.nextDouble(), gener.nextDouble());
+      point[i].getDistance(point[i+1]);
+    }
+    t2 = System.nanoTime();
+
+    return (int) ((t2 - t1)/(TEST_COUNT-1));
+  }
+
+  public static int testRotatePoint(char type)
+  {
+    // PointCP point;
+    long t1, t2;
+
+    t1 = System.nanoTime();
+    for(int i = 0; i < TEST_COUNT; i++)
+    {
+      // point = new PointCP(type, gener.nextDouble(), gener.nextDouble());
+      point[i].rotatePoint(gener.nextDouble());
+    }
+    t2 = System.nanoTime();
+
+    return (int) ((t2 - t1)/TEST_COUNT);
+  }
+
+  public static int testToString(char type)
+  {
+    // PointCP point;
+    long t1, t2;
+
+    t1 = System.nanoTime();
+    for(int i = 0; i < TEST_COUNT; i++)
+    {
+      // point = new PointCP(type, gener.nextDouble(), gener.nextDouble());
+      point[i].toString();
     }
     t2 = System.nanoTime();
 
