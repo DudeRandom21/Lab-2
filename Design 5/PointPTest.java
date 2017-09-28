@@ -15,17 +15,17 @@ import java.lang.reflect.InvocationTargetException;
  * @author Paul Holden
  * @version July 2000
  */
-public class PointCPTest
+public class PointPTest
 {
   private static final int TEST_COUNT = 10000000;
 
   private static Random gener = new Random();
 
-  private static PointCP[] point = new PointCP[TEST_COUNT];
+  private static PointP[] point = new PointP[TEST_COUNT];
   //Class methods *****************************************************
 
   /**
-   * This method is responsible for the creation of the PointCP
+   * This method is responsible for the creation of the PointP
    * object.  This can be done in two ways; the first, by using the
    * command line and running the program using <code> java 
    * PointCPTest &lt;coordtype (c/p)&gt; &lt;X/RHO&gt; &lt;Y/THETA&gt;
@@ -58,10 +58,10 @@ public class PointCPTest
 
   /**
    * This method obtains input from the user and verifies that
-   * it is valid.  When the input is valid, it returns a PointCP
+   * it is valid.  When the input is valid, it returns a PointP
    * object.
    *
-   * @return A PointCP constructed using information obtained 
+   * @return A PointP constructed using information obtained 
    *         from the user.
    * @throws IOException If there is an error getting input from
    *         the user.
@@ -74,7 +74,7 @@ public class PointCPTest
     t1 = System.nanoTime();
     for(int i = 0; i < TEST_COUNT; i++)
     {
-      point[i] = new PointCP(type, gener.nextDouble(), gener.nextDouble());
+      point[i] = new PointP(type, gener.nextDouble(), gener.nextDouble());
     }
     t2 = System.nanoTime();
 

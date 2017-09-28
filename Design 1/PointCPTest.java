@@ -3,6 +3,8 @@
 // license found at www.lloseng.com 
 
 import java.io.*;
+import java.util.Random;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * This class prompts the user for a set of coordinates, and then 
@@ -15,6 +17,11 @@ import java.io.*;
  */
 public class PointCPTest
 {
+  private static final int TEST_COUNT = 10000000;
+
+  private static Random gener = new Random();
+
+  private static PointCP[] point = new PointCP[TEST_COUNT];
   //Class methods *****************************************************
 
   /**
@@ -33,41 +40,28 @@ public class PointCPTest
    */
   public static void main(String[] args)
   {
-    PointCP point;
+    long t1 = System.nanoTime();
+    System.out.println("Average time for construction in Cartesian: " + testConstruction('C') + "ns");
+    System.out.println("Average time for construction in Polar: " + testConstruction('P') + "ns");
+    System.out.println("Average time for getX and getY in Cartesian: " + (testGetXGetY('C') ) + "ns");
+    System.out.println("Average time for getX and getY in Polar: " + (testGetXGetY('P') ) + "ns");
+    System.out.println("Average time for getRho and getTheta in Cartesian: " + (testGetRhoGetTheta('C') ) + "ns");
+    System.out.println("Average time for getRho and getTheta in Polar: " + (testGetRhoGetTheta('P') ) + "ns");
+    System.out.println("Average time for convertStorage: " + (testConvertStorage('C') ) + "ns");
+    System.out.println("Average time for convertStorage: " + (testConvertStorage('P') ) + "ns");
+    System.out.println("Average time for getDistance in Cartesian: " + (testGetDistance('C') - 2 ) + "ns");
+    System.out.println("Average time for getDistance in Polar: " + (testGetDistance('P') - 2 ) + "ns");
+    System.out.println("Average time for rotatePoint in Cartesian: " + (testRotatePoint('C') ) + "ns");
+    System.out.println("Average time for rotatePoint in Polar: " + (testRotatePoint('P') ) + "ns");
+    System.out.println("Average time for toString in Cartesian: " + (testToString('C') ) + "ns");
+    System.out.println("Average time for toString in Polar: " + (testToString('P') ) + "ns");
+    long t2 = System.nanoTime();
 
-    System.out.println("Cartesian-Polar Coordinates Conversion Program");
+    System.out.println("Total Elapse time for " + 14 * TEST_COUNT + " tests: " + (t2 - t1)/1000000000 + "s");
 
-    // Check if the user input coordinates from the command line
-    // If he did, create the PointCP object from these arguments.
-    // If he did not, prompt the user for them.
-    try
-    {
-      point = new PointCP(args[0].toUpperCase().charAt(0), 
-        Double.valueOf(args[1]).doubleValue(), 
-        Double.valueOf(args[2]).doubleValue());
-    }
-    catch(Exception e)
-    {
-      // If we arrive here, it is because either there were no
-      // command line arguments, or they were invalid
-      if(args.length != 0)
-        System.out.println("Invalid arguments on command line");
 
-      try
-      {
-        point = getInput();
-      }
-      catch(IOException ex)
-      {
-        System.out.println("Error getting input. Ending program.");
-        return;
-      }
-    }
-    System.out.println("\nYou entered:\n" + point);
-    point.convertStorageToCartesian();
-    System.out.println("\nAfter asking to store as Cartesian:\n" + point);
-    point.convertStorageToPolar();
-    System.out.println("\nAfter asking to store as Polar:\n" + point);
+
+
   }
 
   /**
@@ -80,84 +74,107 @@ public class PointCPTest
    * @throws IOException If there is an error getting input from
    *         the user.
    */
-  private static PointCP getInput() throws IOException
+  
+  public static int testConstruction(char type)
   {
-    byte[] buffer = new byte[1024];  //Buffer to hold byte input
-    boolean isOK = false;  // Flag set if input correct
-    String theInput = "";  // Input information
-    
-    //Information to be passed to the constructor
-    char coordType = 'A'; // Temporary default, to be set to P or C
-    double a = 0.0;
-    double b = 0.0;
+    long t1, t2;
 
-    // Allow the user to enter the three different arguments
-    for (int i = 0; i < 3; i++)
+    t1 = System.nanoTime();
+    for(int i = 0; i < TEST_COUNT; i++)
     {
-      while (!(isOK))
-      {
-        isOK = true;  //flag set to true assuming input will be valid
-          
-        // Prompt the user
-        if (i == 0) // First argument - type of coordinates
-        {
-          System.out.print("Enter the type of Coordinates you "
-            + "are inputting ((C)artesian / (P)olar): ");
-        }
-        else // Second and third arguments
-        {
-          System.out.print("Enter the value of " 
-            + (coordType == 'C' 
-              ? (i == 1 ? "X " : "Y ")
-              : (i == 1 ? "Rho " : "Theta ")) 
-            + "using a decimal point(.): ");
-        }
-
-        // Get the user's input      
-       
-        // Initialize the buffer before we read the input
-        for(int k=0; k<1024; k++)
-        	buffer[k] = '\u0020';        
-             
-        System.in.read(buffer);
-        theInput = new String(buffer).trim();
-        
-        // Verify the user's input
-        try
-        {
-          if (i == 0) // First argument -- type of coordinates
-          {
-            if (!((theInput.toUpperCase().charAt(0) == 'C') 
-              || (theInput.toUpperCase().charAt(0) == 'P')))
-            {
-              //Invalid input, reset flag so user is prompted again
-              isOK = false;
-            }
-            else
-            {
-              coordType = theInput.toUpperCase().charAt(0);
-            }
-          }
-          else  // Second and third arguments
-          {
-            //Convert the input to double values
-            if (i == 1)
-              a = Double.valueOf(theInput).doubleValue();
-            else
-              b = Double.valueOf(theInput).doubleValue();
-          }
-        }
-        catch(Exception e)
-        {
-        	System.out.println("Incorrect input");
-        	isOK = false;  //Reset flag as so not to end while loop
-        }
-      }
-
-      //Reset flag so while loop will prompt for other arguments
-      isOK = false;
+      point[i] = new PointCP(type, gener.nextDouble(), gener.nextDouble());
     }
-    //Return a new PointCP object
-    return (new PointCP(coordType, a, b));
+    t2 = System.nanoTime();
+
+    return (int) ((t2 - t1)/TEST_COUNT);
+  }
+
+  public static int testGetXGetY(char type)
+  {
+    long t1, t2;
+
+    t1 = System.nanoTime();
+    for(int i = 0; i < TEST_COUNT; i++)
+    {
+      point[i].getX();
+      point[i].getY();
+    }
+    t2 = System.nanoTime();
+
+    return (int) ((t2 - t1)/TEST_COUNT);
+  }
+
+  public static int testGetRhoGetTheta(char type)
+  {
+    long t1, t2;
+
+    t1 = System.nanoTime();
+    for(int i = 0; i < TEST_COUNT; i++)
+    {
+      point[i].getRho();
+      point[i].getTheta();
+    }
+    t2 = System.nanoTime();
+
+    return (int) ((t2 - t1)/TEST_COUNT);
+  }
+
+  public static int testConvertStorage(char type)
+  {
+    long t1, t2;
+
+    t1 = System.nanoTime();
+    for(int i = 0; i < TEST_COUNT; i++)
+    {
+      if (type == 'C')
+        point[i].convertStorageToPolar();
+      else
+        point[i].convertStorageToCartesian();
+    }
+    t2 = System.nanoTime();
+
+    return (int) ((t2 - t1)/TEST_COUNT);
+  }
+
+  public static int testGetDistance(char type)
+  {
+    long t1, t2;
+
+    t1 = System.nanoTime();
+    for(int i = 0; i < TEST_COUNT-1; i++)
+    {
+      point[i].getDistance(point[i+1]);
+    }
+    t2 = System.nanoTime();
+
+    return (int) ((t2 - t1)/(TEST_COUNT-1));
+  }
+
+  public static int testRotatePoint(char type)
+  {
+    long t1, t2;
+
+    t1 = System.nanoTime();
+    for(int i = 0; i < TEST_COUNT; i++)
+    {
+      point[i].rotatePoint(gener.nextDouble());
+    }
+    t2 = System.nanoTime();
+
+    return (int) ((t2 - t1)/TEST_COUNT);
+  }
+
+  public static int testToString(char type)
+  {
+    long t1, t2;
+
+    t1 = System.nanoTime();
+    for(int i = 0; i < TEST_COUNT; i++)
+    {
+      point[i].toString();
+    }
+    t2 = System.nanoTime();
+
+    return (int) ((t2 - t1)/TEST_COUNT);
   }
 }

@@ -1,0 +1,14 @@
+Average time for construction in Cartesian: 884ns
+Average time for construction in Polar: 1029ns
+Average time for getX and getY in Cartesian: 3ns
+Average time for getX and getY in Polar: 2ns
+Average time for getRho and getTheta in Cartesian: 162ns
+Average time for getRho and getTheta in Polar: 161ns
+Average time for convertStorage: 12ns
+Average time for convertStorage: 12ns
+Average time for getDistance in Cartesian: 2ns
+Average time for getDistance in Polar: 1ns
+Average time for rotatePoint in Cartesian: 62ns
+Average time for rotatePoint in Polar: 60ns
+Average time for toString in Cartesian: 2274ns
+Average time for toString in Polar: 2155ns
