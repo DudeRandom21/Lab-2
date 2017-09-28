@@ -47,14 +47,6 @@ public class PointCPTest
 
 
 
-// you need to store the value of the construction time
-// you haven't finished the testGetXGetY
-
-
-
-
-
-
   }
 
   /**
