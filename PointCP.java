@@ -87,6 +87,38 @@ public class PointCP
   
 	
   /**
+   * Converts Cartesian coordinates to Polar coordinates.
+   */
+  public void convertStorageToPolar()
+  {
+    if(typeCoord != 'P')
+    {
+      //Calculate RHO and THETA
+      double temp = getRho();
+      yOrTheta = getTheta();
+      xOrRho = temp;
+      
+      typeCoord = 'P';  //Change coord type identifier
+    }
+  }
+	
+  /**
+   * Converts Polar coordinates to Cartesian coordinates.
+   */
+  public void convertStorageToCartesian()
+  {
+    if(typeCoord != 'C')
+    {
+      //Calculate X and Y
+      double temp = getX();
+      yOrTheta = getY();
+      xOrRho = temp;
+   
+      typeCoord = 'C';	//Change coord type identifier
+    }
+  }
+
+  /**
    * Calculates the distance in between two points using the Pythagorean
    * theorem  (C ^ 2 = A ^ 2 + B ^ 2). Not needed until E2.30.
    *
@@ -134,8 +166,4 @@ public class PointCP
        ? "Cartesian  (" + getX() + "," + getY() + ")"
        : "Polar [" + getRho() + "," + getTheta() + "]") + "\n";
   }
-
-  public void convertStorageToCartesian() {}
-  public void convertStorageToPolar() {}
-
 }
