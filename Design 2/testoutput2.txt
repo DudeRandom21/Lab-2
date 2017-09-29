@@ -1,0 +1,14 @@
+Min,median,max time for method 1: 12449966, 13583463, 44120673ns
+Min,median,max time for method 2: 4356525, 5055427, 11078970ns
+Min,median,max time for method 3: 172177, 197097, 9834465ns
+Min,median,max time for method 4: 172555, 350017, 1754994ns
+Min,median,max time for method 5: 19634, 92885, 3263429ns
+Min,median,max time for method 6: 20389, 20767, 52484ns
+Min,median,max time for method 7: 100436, 243162, 2679690ns
+Min,median,max time for method 8: 99682, 104590, 5442448ns
+Min,median,max time for method 9: 293380, 362477, 18562996ns
+Min,median,max time for method 10: 284695, 323586, 639621ns
+Min,median,max time for method 11: 21308763, 22443769, 27303232ns
+Min,median,max time for method 12: 21544750, 23095474, 36573214ns
+Min,median,max time for method 13: 99625402, 104832616, 235765116ns
+Min,median,max time for method 14: 99819479, 102417234, 110101754ns

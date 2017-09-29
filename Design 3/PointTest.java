@@ -4,13 +4,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 
-public class PointCTest
+public class PointTest
 {
   private static final int TEST_COUNT = 100000;
 
   private static Random gener = new Random();
 
-  private static PointC[] point = new PointC[TEST_COUNT];
+  private static PointCP[] point = new PointCP[TEST_COUNT];
   //Class methods *****************************************************
 
   /**
@@ -308,7 +308,7 @@ public class PointCTest
     t1 = System.nanoTime();
     for(int i = 0; i < TEST_COUNT; i++)
     {
-      point[i] = new PointC(type, gener.nextDouble(), gener.nextDouble());
+      point[i] = new PointCP(type, gener.nextDouble(), gener.nextDouble());
     }
     t2 = System.nanoTime();
 

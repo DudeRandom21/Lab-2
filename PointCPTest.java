@@ -1,20 +1,8 @@
-// This file contains material supporting section 2.9 of the textbook:
-// "Object Oriented Software Engineering" and is issued under the open-source
-// license found at www.lloseng.com 
-
 import java.io.*;
 import java.util.Random;
 import java.lang.reflect.InvocationTargetException;
 
-/**
- * This class prompts the user for a set of coordinates, and then 
- * converts them from polar to cartesian or vice-versa.
- *
- * @author Fran&ccedil;ois B&eacute;langer
- * @author Dr Timothy C. Lethbridge
- * @author Paul Holden
- * @version July 2000
- */
+
 public class PointCPTest
 {
   private static final int TEST_COUNT = 10000000;
@@ -26,10 +14,7 @@ public class PointCPTest
 
   /**
    * This method is responsible for the creation of the PointCP
-   * object.  This can be done in two ways; the first, by using the
-   * command line and running the program using <code> java 
-   * PointCPTest &lt;coordtype (c/p)&gt; &lt;X/RHO&gt; &lt;Y/THETA&gt;
-   * </code> and the second by getting the program to prompt the user.
+   * object. 
    * If the user does not enter a valid sequence at the command line,
    * the program will prompte him or her.
    *
@@ -45,14 +30,19 @@ public class PointCPTest
     System.out.println("Average time for construction in Polar: " + testConstruction('P') + "ns");
     System.out.println("Average time for getX and getY in Cartesian: " + (testGetXGetY('C') ) + "ns");
     System.out.println("Average time for getX and getY in Polar: " + (testGetXGetY('P') ) + "ns");
+	
     System.out.println("Average time for getRho and getTheta in Cartesian: " + (testGetRhoGetTheta('C') ) + "ns");
     System.out.println("Average time for getRho and getTheta in Polar: " + (testGetRhoGetTheta('P') ) + "ns");
+	
     System.out.println("Average time for convertStorage: " + (testConvertStorage('C') ) + "ns");
     System.out.println("Average time for convertStorage: " + (testConvertStorage('P') ) + "ns");
+	
     System.out.println("Average time for getDistance in Cartesian: " + (testGetDistance('C') - 2 ) + "ns");
     System.out.println("Average time for getDistance in Polar: " + (testGetDistance('P') - 2 ) + "ns");
+	
     System.out.println("Average time for rotatePoint in Cartesian: " + (testRotatePoint('C') ) + "ns");
     System.out.println("Average time for rotatePoint in Polar: " + (testRotatePoint('P') ) + "ns");
+	
     System.out.println("Average time for toString in Cartesian: " + (testToString('C') ) + "ns");
     System.out.println("Average time for toString in Polar: " + (testToString('P') ) + "ns");
     long t2 = System.nanoTime();
